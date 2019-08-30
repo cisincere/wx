@@ -6,6 +6,13 @@ import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.content) {
+    document.title = to.meta.title;
+  }
+  next();
+});
+
 new Vue({
   router,
   store,
