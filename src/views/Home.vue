@@ -33,6 +33,6 @@ export default class Home extends Vue {
 }
 // eslint-disable-next-line no-use-before-define,no-global-assign,no-restricted-globals
 function getName() {
-  return '12';
+  return '12 1';
 }
 </script>
