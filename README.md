@@ -1,5 +1,5 @@
 # wx
-
+- ######首先导包，linux使用控制台,cd到项目根目录，执行npm install，window在项目文件夹中打开cmd执行npm install
 ## Project setup
 ```
 npm install

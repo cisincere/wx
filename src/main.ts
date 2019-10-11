@@ -5,9 +5,10 @@ import store from './store';
 import './registerServiceWorker';
 
 Vue.config.productionTip = false;
+Vue.config.devtools = true;
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.content) {
+  if (to.meta.title) {
     document.title = to.meta.title;
   }
   next();
