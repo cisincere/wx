@@ -1,6 +1,7 @@
 <template>
   <div>
     <span class="random_color_f" v-bind:style="{ color: tweenedCSSColor }">{{random_text}}</span>
+    <span>111</span>
   </div>
 </template>
 
@@ -57,6 +58,22 @@ export default {
       }).toCSS();
     },
   },
+  mounted() {
+    setInterval(() => {
+      let p;
+      let color = '#';
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < 6; i++) {
+        // eslint-disable-next-line radix
+        p = UserInfo.colors[parseInt(String(Math.random() * UserInfo.colors.length))];
+        color += p;
+      }
+      if (typeof (that.colorQuery) !== 'undefined') {
+        that.colorQuery = color;
+        that.updateColor();
+      }
+    }, 1300);
+  },
   methods: {
     updateColor() {
       this.color = new Color(this.colorQuery).toRGB();
@@ -64,20 +81,6 @@ export default {
     },
   },
 };
-setInterval(() => {
-  let p;
-  let color = '#';
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < 6; i++) {
-    // eslint-disable-next-line radix
-    p = UserInfo.colors[parseInt(String(Math.random() * UserInfo.colors.length))];
-    color += p;
-  }
-  if (typeof (that.colorQuery) !== 'undefined') {
-    that.colorQuery = color;
-    that.updateColor();
-  }
-}, 1300);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

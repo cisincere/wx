@@ -18,28 +18,8 @@ import RandomTextForColor from './RandomTextForColor.vue';
   },
 })
 export default class UserInfo extends Vue {
-  get name(): string {
-    // eslint-disable-next-line no-underscore-dangle
-    return this._name;
-  }
-
-  set name(value: string) {
-    // eslint-disable-next-line no-underscore-dangle,no-use-before-define
-    this._name = getName();
-  }
-
     // 初期色のパラメータを提供します。
     static colors :object = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 1, 'b', 4, 'c', 'd', 'e', 'c', 'f', '6', '8', 'f', '2', '3', 'a', 'f', 'c', 'e', '5', '9', 'd'];
-
-    _name!: string | '';
-}
-// eslint-disable-next-line no-use-before-define,no-global-assign,no-restricted-globals
-function getName() {
-  // eslint-disable-next-line no-unused-expressions
-  $.ajax({
-
-  });
-  return '12';
 }
 </script>
 

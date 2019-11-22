@@ -7,7 +7,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class BaseURL extends Vue {
-    url: string='http://localhost:8080'
+    static url: string='http://localhost:9898'
 }
 </script>
 
