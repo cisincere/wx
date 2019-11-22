@@ -5,8 +5,6 @@
         <div class="blur-bg"></div>
         <div class="nav-mask"></div>
       </div>
-      <div id="banner_link" class="head-banner report-wrap-module report-scroll-module"
-           scrollshow="true">
       </div>
     </div>
 </template>
