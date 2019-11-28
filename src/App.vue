@@ -4,6 +4,10 @@
   </div>
 </template>
 <script>
+import Vuerify from 'vuerify';
+import Vue from 'vue';
+
+Vue.use(Vuerify);
 export default {
   created() {
     window.L2Dwidget.init({
@@ -23,10 +27,10 @@ export default {
 </script>
 
 <style lang="scss">
-  html,body{
-    margin: 0;
-    padding: 0;
-  }
+html,body{
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
