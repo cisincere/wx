@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="random_color_f" v-bind:style="{ color: tweenedCSSColor }">1</span>
+    <span class="random_color_f" v-bind:style="{ color: tweenedCSSColor }">{{random_text}}</span>
   </div>
 </template>
 

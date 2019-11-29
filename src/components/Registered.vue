@@ -1,74 +1,95 @@
 <template>
   <div>
     <Header></Header>
-    <div class="reg background">
-      <form id="reg-form" @submit.prevent="">
-        <div class="form-info">
-          <div class="input-info">
-            <label class="reg_input">用户名<span class="bs">*</span>：
-              <input type="text" v-model="formMess.username" placeholder="请输入用户名">
-            </label>
-          </div>
-          <span class="error" v-if="errors['formMess.username']">{{errors['formMess.username']}}
+    <div class="reg_form">
+      <el-form v-model="form" label-position="right" label-width="80px">
+        <el-row type="flex">
+          <el-col :span="11">
+          <el-form-item label="用户名:">
+            <el-input v-model="form.username" clearable></el-input>
+          </el-form-item>
+          </el-col>
+          <el-col class="error_col" :span="1">
+            <span class="error" v-if="errors['form.username']">
+            {{errors['form.username']}}
           </span>
-        </div>
-        <div class="form-info">
-          <div class="input-info">
-            <label class="reg_input">昵称<span class="bs">*</span>：
-              <input type="text" placeholder="请输入昵称" v-model="formMess.nickname">
-            </label>
-          </div>
-          <span class="error" v-if="errors['formMess.nickname']">{{errors['formMess.nickname']}}
+          </el-col>
+        </el-row>
+        <el-row type="flex">
+          <el-col :span="11">
+          <el-form-item label="昵称:">
+            <el-input v-model="form.nickname" clearable></el-input>
+          </el-form-item>
+          </el-col>
+          <el-col class="error_col" :span="1">
+            <span class="error" v-if="errors['form.nickname']">
+            {{errors['form.nickname']}}
           </span>
-        </div>
-        <div class="form-info">
-          <div class="input-info">
-            <label class="reg_input">密码<span class="bs">*</span>：
-              <input type="password" placeholder="请输入密码" v-model="formMess.password"
-                     id="user_password">
-            </label>
-          </div>
-          <span class="error" v-if="errors['formMess.password']">{{errors['formMess.password']}}
+          </el-col>
+        </el-row>
+        <el-row type="flex">
+          <el-col :span="11">
+          <el-form-item label="密码:">
+            <el-input v-model="form.password" show-password clearable></el-input>
+          </el-form-item>
+          </el-col>
+          <el-col class="error_col" :span="1">
+            <span class="error" v-if="errors['form.password']">
+            {{errors['form.password']}}
           </span>
-        </div>
-        <div class="form-info">
-          <div class="input-info">
-            <label class="reg_input">生日：
-              <input type="date" name="birthday" v-model="formMess.date">
-            </label></div>
-        </div>
-        <div class="form-info">
-          <div class="input-info">
-            <label class="reg_input">电话：
-              <input type="text" placeholder="请输入电话号码" name="phone" v-model="formMess.phone">
-            </label>
-          </div>
-          <span class="error" v-if="errors['formMess.phone']">{{errors['formMess.phone']}}</span>
-        </div>
-        <div class="form-info">
-          <div class="input-info">
-            <label class="reg_input">邮箱<span class="bs">*</span>：
-              <input type="text" placeholder="请输入邮箱" name="email" v-model="formMess.email">
-            </label>
-          </div>
-          <span class="error" v-if="errors['formMess.email']">{{errors['formMess.email']}}</span>
-        </div>
-        <div class="form-info">
-          <div class="input-info">
-            <label>
-              <input type="text" placeholder="请输入验证码" v-model="formMess.verification_code">
-            </label>
-            <button>发送验证码</button>
-          </div>
-          <span class="error" v-if="errors['formMess.verification_code']">
-            {{errors['formMess.verification_code']}}
+          </el-col>
+        </el-row>
+        <el-row type="flex">
+          <el-col :span="11">
+          <el-form-item label="年龄:">
+            <el-input v-model="form.age" clearable></el-input>
+          </el-form-item>
+          </el-col>
+          <el-col class="error_col" :span="1">
+            <span class="error" v-if="errors['form.age']">
+            {{errors['form.age']}}
           </span>
-        </div>
-        <label>
-          <input id="reg-button" @close="reg()" type="button" value="注册">
-          <div class="redirect_log"><span>已有账号?</span><a href="#">去登录</a></div>
-        </label>
-      </form>
+          </el-col>
+        </el-row>
+        <el-row type="flex">
+          <el-col :span="11">
+            <el-form-item label="邮箱:">
+              <el-input v-model="form.email" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col class="error_col" :span="1">
+            <span class="error" v-if="errors['form.email']">
+            {{errors['form.email']}}
+          </span>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="ver_lab">
+          <el-col :span="8">
+          <el-form-item label="验证码:">
+            <el-input class="ver" v-model="form.ver_code" placeholder="输入验证码"></el-input>
+          </el-form-item>
+          </el-col>
+          <el-col class="el-col-button" :span="3">
+            <el-button class="send_email" type="primary" @click="send_email()">发送验证码</el-button>
+          </el-col>
+          <el-col class="error_col" :span="1">
+            <span class="error" v-if="errors['form.ver_code']">
+            {{errors['form.ver_code']}}
+          </span>
+          </el-col>
+        </el-row>
+        <el-row type="flex">
+          <el-col class="reg-foot" :span="8">
+          <el-form-item>
+            <el-button @click="reg()" type="primary" class="reg_button">注册</el-button>
+          </el-form-item>
+          </el-col>
+          <el-col class="reg-el-link-col" :span="4">
+            <el-link type="primary" href="#" class="reg-el-link" :underline="false">
+              已有账号?去登陆</el-link>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
   </div>
 </template>
@@ -76,51 +97,57 @@
 <script>
 import Vue from 'vue';
 import Vuerify from 'vuerify';
-// eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
 import $ from 'jquery';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import qs from 'qs';
+import axios from 'axios';
 // eslint-disable-next-line import/extensions
 import Header from '@/components/Header';
+// eslint-disable-next-line import/extensions
+import BaseURL from '@/utile/BaseURL';
 
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = '/api';
 Vue.use(Vuerify /* , add rules */);
 export default {
   name: 'Registered',
   components: { Header },
   data() {
     return {
-      formMess: {
+      form: {
         username: '',
         nickname: '',
         password: '',
-        phone: '',
-        date: new Date(),
+        age: '',
         email: '',
-        verification_code: '',
+        ver_code: '',
       },
     };
   },
   vuerify: {
-    'formMess.username': {
-      test: /\w{4,}/,
-      message: '至少 4 位字符',
+    'form.username': {
+      test: /\w{4,8}/,
+      message: '4到8位字符',
     },
-    'formMess.nickname': {
-      test: /\w{6,10}/,
-      message: '6 ~ 10位字符',
+    'form.nickname': {
+      test: /\w{4,18}/,
+      message: '4到18位字符',
     },
-    'formMess.password': {
-      test: /\w{8,16}/,
-      message: '8 ~ 16 位字符',
+    'form.password': {
+      test: /(?!.*\s)(?!^[\u4e00-\u9fa5]+$)(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{8,16}$/,
+      message: '不包含特殊字符(?!.空格等),至少包含两种字符',
     },
-    'formMess.phone': {
-      test: /^[1][3,4,5,7,8][0-9]{9}$/,
-      message: '电话号码错误',
+    'form.age': {
+      test: /\d{1,2}/,
+      message: '年龄应为两位数',
     },
-    'formMess.email': {
-      test: /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
-      message: '邮箱错误',
+    'form.email': {
+      // eslint-disable-next-line no-useless-escape
+      test: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
+      message: '邮箱地址错误',
     },
-    'formMess.verification_code': {
-      test: /\w{4,}/,
+    'form.ver_code': {
+      test: /^\d{4,}$/,
       message: '验证码错误',
     },
   },
@@ -132,29 +159,37 @@ export default {
     },
   },
   methods: {
+    send_email() {
+      const data = { email: this.form.email };
+      axios({
+        method: 'post',
+        url: '/user/reg/send_email',
+        data: qs.stringify(data),
+      }).then((res) => {
+        console.log(res);
+      });
+    },
     reg() {
       /* json格式提交： */
       // let formData = JSON.stringify(this.formMesse);
-      const verifyList = ['form.username', 'form.nickname'];
-      // check() 校验所有规则，参数可以设置需要校验的数组
+      const verifyList = ['form.username', 'form.password', 'form.email'];
       if (!this.$vuerify.check(verifyList)) {
         return;
       }
       console.log('验证通过');
+      const data = {};
       /* formData格式提交： */
-      const formData = new FormData();
       // eslint-disable-next-line guard-for-in,no-restricted-syntax
-      for (const key in this.formMess) {
-        formData.append(key, this.formMess[key]);
+      for (const key in this.form) {
+        if (key !== 'ver_code') {
+          data[key] = this.form[key];
+        }
       }
+      data.code = this.form.ver_code;
       axios({
         method: 'post',
-        url: 'xxxxxxx',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        withCredentials: true,
-        data: formData,
+        url: '/user/reg',
+        data: qs.stringify(data),
       }).then((res) => {
         console.log(res);
       });
@@ -163,89 +198,63 @@ export default {
 };
 </script>
 
-<style scoped>
-  input {
-    background: #e6eee5;
-    outline: none;
+<style>
+  .reg_form {
+    width: 75%;
+    margin: 0 auto;
   }
-
-  .background {
-    width: 54%;
-    background-color: #f4e9f2;
-    margin: 0 auto 30px;
-    border: 1px solid #f4eeeb;
-    border-radius: 13px;
-    box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.5);
+  .ver_lab > .el-col > .el-form-item > .el-form-item__label{
+    line-height: 70px;
   }
-
-  .form-info {
-    display: flex;
-    flex: 6;
-    justify-content: center;
+  .el-input__inner{
+    border: 1px solid rgba(106, 162, 255, 0.43) !important;
+  }
+  .ver > .el-input__inner {
+    height: 70px !important;
+    font-size:39px !important;
+  }
+  .el-col{
     position: relative;
+    margin-bottom: 26px;
+    &:last-child {
+       margin-bottom: 0;
+     }
   }
-
-  .input-info {
-    display: flex;
-    flex-grow: 0.6;
-    align-content: center;
+  .el-row {
     justify-content: center;
   }
-
-  .reg_input {
-    display: flex;
-    align-items: center;
-    flex-grow: 10;
-    justify-content: center;
-    margin: 20px;
+  .el-col-button{
+    padding: 0;
+    margin: 0;
   }
-
-  .reg_input input {
-    width: 37%;
-    height: 35px;
-    border-radius: 16px;
-    border: 1px solid #f4b3cf;
-    text-indent: 6px;
-    flex: 3;
-    flex-grow: 0.6;
+  .el-col-button > .send_email{
+    height: 70px;
+    width: 100%;
   }
-
-  .bs {
-    color: red;
-    font-size: 18px;
-  }
-
-  #reg-button {
-    width: 70px;
-    height: 40px;
-    margin: 25px 40px 20px 20px;
-    border-radius: 12px;
-    border: 1px solid #f4b3cf;
-    position: relative;
-    right: 40px;
-    text-align: center;
-  }
-
-  label a, span {
-    color: #2F96F4;
-    font-size: 12px;
-  }
-
-  a:hover {
-    color: #f4b3cf;
-  }
-
-  .redirect_log {
-    display: inline-block;
-  }
-
-  .error {
+  .reg_button{
     position: absolute;
-    right: 20%;
-    top: 33px;
-    color: red;
+    left: 10px;
+    width: 130px;
+    height: 60px;
+    line-height: 40px;
   }
-  #reg_password_message{
-    visibility: hidden;
+  .reg-foot > .el-form-item > .el-form-item__content{
+    margin-left:0 !important;
+  }
+  .reg-el-link{
+    position: relative;
+    right: 110px;
+    font-size: 14px;
+  }
+  .reg-el-link > span{
+    line-height: 4;
+  }
+  .error_col{
+    width: 14.16667% !important;
+  }
+  .error {
+    font-size: 14px;
+    color: red;
+    /*width: 14.16667%;*/
   }
 </style>
