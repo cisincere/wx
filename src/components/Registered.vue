@@ -98,14 +98,11 @@
 <script>
 import Vue from 'vue';
 import Vuerify from 'vuerify';
-import $ from 'jquery';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import qs from 'qs';
 import axios from 'axios';
 // eslint-disable-next-line import/extensions
 import Header from '@/components/Header';
-// eslint-disable-next-line import/extensions
-import BaseURL from '@/utile/BaseURL';
 // eslint-disable-next-line import/extensions
 import foot from '@/components/foot';
 
