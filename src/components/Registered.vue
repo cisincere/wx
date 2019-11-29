@@ -107,7 +107,7 @@ import Header from '@/components/Header';
 import foot from '@/components/foot';
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = '/java';
+axios.defaults.baseURL = '/api';
 Vue.use(Vuerify /* , add rules */);
 export default {
   name: 'Registered',
@@ -125,7 +125,16 @@ export default {
     };
   },
   created() {
-    console.log('assets/imgs');
+    // eslint-disable-next-line camelcase
+    const file_path = 'F:\\VuePOJO\\wx\\src\\assets\\imgs';
+    const data = { path: file_path };
+    axios({
+      method: 'post',
+      url: '/p/get/files',
+      data: qs.stringify(data),
+    }).then((res) => {
+      console.log(res);
+    });
   },
   vuerify: {
     'form.username': {
