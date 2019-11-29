@@ -10,6 +10,7 @@ module.exports = {
           '^/api': '',
         },
       },
+      // 添加python后端跨域支持
       '/pthon': {
         target: 'http://localhost:8989/',
         // 允许跨域
