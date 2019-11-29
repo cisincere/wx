@@ -3,7 +3,7 @@
     <Header></Header>
     <div class="reg_form">
       <el-form v-model="form" label-position="right" label-width="80px">
-        <el-row type="flex">
+        <el-row type="flex" class="one-el-row">
           <el-col :span="11">
           <el-form-item label="用户名:">
             <el-input v-model="form.username" clearable></el-input>
@@ -91,6 +91,7 @@
         </el-row>
       </el-form>
     </div>
+    <foot></foot>
   </div>
 </template>
 
@@ -105,13 +106,15 @@ import axios from 'axios';
 import Header from '@/components/Header';
 // eslint-disable-next-line import/extensions
 import BaseURL from '@/utile/BaseURL';
+// eslint-disable-next-line import/extensions
+import foot from '@/components/foot';
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = '/api';
+axios.defaults.baseURL = '/java';
 Vue.use(Vuerify /* , add rules */);
 export default {
   name: 'Registered',
-  components: { Header },
+  components: { foot, Header },
   data() {
     return {
       form: {
@@ -123,6 +126,9 @@ export default {
         ver_code: '',
       },
     };
+  },
+  created() {
+    console.log('assets/imgs');
   },
   vuerify: {
     'form.username': {
@@ -157,6 +163,9 @@ export default {
     errors() {
       return this.$vuerify.$errors;
     },
+  },
+  mounted() {
+    setInterval(() => {}, 2);
   },
   methods: {
     send_email() {
@@ -200,8 +209,17 @@ export default {
 
 <style>
   .reg_form {
-    width: 75%;
+    width: 45%;
     margin: 0 auto;
+    background: aliceblue;
+    border-radius: 3%;
+    margin-top: 30px;
+  }
+  .el-form{
+    overflow: hidden;
+  }
+  .one-el-row{
+    margin-top: 30px;
   }
   .ver_lab > .el-col > .el-form-item > .el-form-item__label{
     line-height: 70px;
@@ -211,7 +229,7 @@ export default {
   }
   .ver > .el-input__inner {
     height: 70px !important;
-    font-size:39px !important;
+    font-size:24px !important;
   }
   .el-col{
     position: relative;
@@ -256,5 +274,9 @@ export default {
     font-size: 14px;
     color: red;
     /*width: 14.16667%;*/
+  }
+  .foot{
+    margin-top: 40px;
+    height: 120px !important;
   }
 </style>

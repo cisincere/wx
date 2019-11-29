@@ -1,14 +1,22 @@
 module.exports = {
   devServer: {
     proxy: {
-      '/api': {
-        // 此处的写法，目的是为了 将 /api 替换成 https://www.baidu.com/
+      '/java': {
         target: 'http://localhost:9898/',
         // 允许跨域
         changeOrigin: true,
         ws: true,
         pathRewrite: {
           '^/api': '',
+        },
+      },
+      '/pthon': {
+        target: 'http://localhost:8989/',
+        // 允许跨域
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/pthon': '',
         },
       },
     },

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <img src="../assets/header.png" alt="">
+<img src="../assets/7197cae46569a49abd98e0c51348068831be6a85.png" alt=""/>
 </div>
 </template>
 
@@ -12,9 +12,9 @@ export default {
 
 <style scoped>
 div{
+  overflow: hidden;
   background-color:#00a0d8 ;
   height: 86px;
   text-align: center;
-  margin-bottom: 30px;
 }
 </style>

@@ -18,7 +18,7 @@ export default {
       tagMode: false,
       debug: false,
       model: { jsonPath: '/live2dw/kanna/model.json' },
-      display: { position: 'right', width: 200, height: 400 },
+      display: { position: 'right', width: 150, height: 300 },
       mobile: { show: true },
       log: false,
     });
