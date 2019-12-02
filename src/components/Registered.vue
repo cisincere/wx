@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Header></Header>
+    <Header/>
     <div class="reg_form">
       <el-form v-model="form" label-position="right" label-width="80px">
         <el-row type="flex" class="one-el-row">
           <el-col :span="11">
           <el-form-item label="用户名:">
-            <el-input v-model="form.username" clearable></el-input>
+            <el-input v-model="form.username" clearable/>
           </el-form-item>
           </el-col>
           <el-col class="error_col" :span="1">
@@ -18,7 +18,7 @@
         <el-row type="flex">
           <el-col :span="11">
           <el-form-item label="昵称:">
-            <el-input v-model="form.nickname" clearable></el-input>
+            <el-input v-model="form.nickname" clearable/>
           </el-form-item>
           </el-col>
           <el-col class="error_col" :span="1">
@@ -30,7 +30,7 @@
         <el-row type="flex">
           <el-col :span="11">
           <el-form-item label="密码:">
-            <el-input v-model="form.password" show-password clearable></el-input>
+            <el-input v-model="form.password" show-password clearable/>
           </el-form-item>
           </el-col>
           <el-col class="error_col" :span="1">
@@ -42,7 +42,7 @@
         <el-row type="flex">
           <el-col :span="11">
           <el-form-item label="年龄:">
-            <el-input v-model="form.age" clearable></el-input>
+            <el-input v-model="form.age" clearable/>
           </el-form-item>
           </el-col>
           <el-col class="error_col" :span="1">
@@ -54,7 +54,7 @@
         <el-row type="flex">
           <el-col :span="11">
             <el-form-item label="邮箱:">
-              <el-input v-model="form.email" clearable></el-input>
+              <el-input v-model="form.email" clearable/>
             </el-form-item>
           </el-col>
           <el-col class="error_col" :span="1">
@@ -66,7 +66,7 @@
         <el-row type="flex" class="ver_lab">
           <el-col :span="8">
           <el-form-item label="验证码:">
-            <el-input class="ver" v-model="form.ver_code" placeholder="输入验证码"></el-input>
+            <el-input class="ver" v-model="form.ver_code" placeholder="输入验证码"/>
           </el-form-item>
           </el-col>
           <el-col class="el-col-button" :span="3">
@@ -91,7 +91,7 @@
         </el-row>
       </el-form>
     </div>
-    <foot></foot>
+    <foot/>
   </div>
 </template>
 
