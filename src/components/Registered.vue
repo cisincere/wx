@@ -124,18 +124,18 @@ export default {
       },
     };
   },
-  created() {
-    // eslint-disable-next-line camelcase
-    const file_path = 'F:\\VuePOJO\\wx\\src\\assets\\imgs';
-    const data = { path: file_path };
-    axios({
-      method: 'post',
-      url: '/p/get/files',
-      data: qs.stringify(data),
-    }).then((res) => {
-      console.log(res);
-    });
-  },
+  // created() {
+  //   // eslint-disable-next-line camelcase
+  //   const file_path = 'F:\\VuePOJO\\wx\\src\\assets\\imgs';
+  //   const data = { path: file_path };
+  //   axios({
+  //     method: 'post',
+  //     url: '/p/get/files',
+  //     data: qs.stringify(data),
+  //   }).then((res) => {
+  //     console.log(res);
+  //   });
+  // },
   vuerify: {
     'form.username': {
       test: /\w{4,8}/,
