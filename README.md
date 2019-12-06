@@ -37,3 +37,8 @@ npm run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+### 容器启动命令
+```docker
+windows： docker run -p 8008:80 -d --name wx -v //f/VuePOJO/wx/nginx:/etc/nginx/conf.d -v //f/VuePOJO/wx/dist:/usr/share/nginx/html  nginx
+Linux： docker run -p 8008:80 -d --name wx -v $PWD/nginx:/etc/nginx/conf.d -v $PWD/dist:/usr/share/nginx/html  nginx
+```

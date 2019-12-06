@@ -24,13 +24,13 @@
                <li class="el-col-user-imge">
                  <el-col>
                    <el-avatar  :size="35">
-                     <img :src="def_src" alt=""/>
+                     <img :src="def_src" alt="" @mouseover="show_ifo()"/>
                    </el-avatar>
                  </el-col>
                </li>
-               <li v-for="(info, index) in user_info" :key="index">
-                 <router-link :to="info.href">
-                  <span>{{ info.key }}</span>
+               <li v-for="(value, key) in user_info" :key="key">
+                 <router-link :to="value[1]">
+                  <span>{{value[0]}}</span>
                  </router-link>
                </li>
              </ul>
@@ -40,7 +40,7 @@
       </el-row>
     </el-header>
     <el-container>
-      <el-aside width="200px">Aside</el-aside>
+      <el-aside width="150px">Aside</el-aside>
       <el-container>
         <el-main>Main</el-main>
         <el-footer>Footer</el-footer>
@@ -55,11 +55,33 @@ import default_path from '../static/akari.jpg';
 export default {
   data() {
     return {
+      nickname: '',
+      id: '',
+      email: '',
       def_src: default_path,
-      user_info: [{ key: '登录', href: 'login' }, { key: '注册', href: 'reg' }],
+      user_info: new Map(),
       index_menu: ['主页', '分区', '主站', '源码查看'],
       search_word: '',
     };
+  },
+  created() {
+    this.user_info.set('登录', '/login');
+    this.user_info.set('注册', '/reg');
+  },
+  mounted() {
+    const data = this.$store.getters.getUser;
+    if (data.get('nickname') !== undefined) {
+      this.id = data.get('id');
+      data.delete('id');
+      this.email = data.get('email');
+      data.delete('email');
+      this.nickname = data.get('nickname');
+      data.delete('nickname');
+      this.user_info = data;
+    }
+  },
+  methods: {
+    show_ifo() {},
   },
 };
 </script>

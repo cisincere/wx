@@ -1,6 +1,10 @@
 <template>
   <div id="app">
+    <transition :name="transitionName">
+      <keep-alive include="login">
     <router-view/>
+      </keep-alive>
+    </transition>
   </div>
 </template>
 <script>
@@ -9,6 +13,11 @@ import Vue from 'vue';
 
 Vue.use(Vuerify);
 export default {
+  data() {
+    return {
+      transitionName: '',
+    };
+  },
   created() {
     window.L2Dwidget.init({
       pluginRootPath: 'live2dw/',
@@ -22,6 +31,20 @@ export default {
       mobile: { show: true },
       log: false,
     });
+  },
+  watch: {
+    $route(to, from) {
+      if (to.meta.index > 0) {
+        // eslint-disable-next-line no-empty
+        if (to.meta.index < from.meta.index) {
+          this.transitionName = 'slide-right';
+        } else {
+          this.transitionName = 'slide-left';
+        }
+      } else if (to.meta.index === 0 && from.meta.index > 0) {
+        this.transitionName = 'slide-right';
+      }
+    },
   },
 };
 </script>
@@ -37,5 +60,27 @@ html,body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+  will-change: transform;
+  transition: all .3s;
+  position: absolute;
+  width:100%;
+  left:0;
+}
+.slide-right-enter {
+  transform: translateX(-100%);
+}
+.slide-right-leave-active {
+  transform: translateX(100%);
+}
+.slide-left-enter {
+  transform: translateX(100%);
+}
+.slide-left-leave-active {
+  transform: translateX(-100%);
 }
 </style>

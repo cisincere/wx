@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Reg from './components/Registered.vue';
 import Index from './views/Index.vue';
-import Canvas4Vue from './components/Canvas4Vue.vue';
+import Login from './components/Login.vue';
 
 Vue.use(Router);
 
@@ -15,22 +15,25 @@ export default new Router({
       component: Index,
       meta: {
         title: '主页',
+        index: 0,
       },
     },
     {
       path: '/reg',
-      name: 'Reg',
+      name: 'reg',
       component: Reg,
       meta: {
-        title: 'reg',
+        title: '注册',
+        index: 2,
       },
     },
     {
-      path: '/cv',
-      name: 'Canvas4Vue',
-      component: Canvas4Vue,
+      path: '/login',
+      name: 'login',
+      component: Login,
       meta: {
-        title: 'Canvas4Vue',
+        title: '登录',
+        index: 1,
       },
     },
   ],
