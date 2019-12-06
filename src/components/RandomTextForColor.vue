@@ -1,11 +1,19 @@
 <template>
-  <div>
-    <span class="random_color_f" v-bind:style="{ color: tweenedCSSColor }">{{random_text}}</span>
+<div>
+  <div v-for="(item, index) in index_main_menu" :key="index" class="random_text"
+       @click="changeColor(index)" :id="index">
+    <router-link :to="item.value">
+      <div class="menu-text">
+        <span class="random_color_f" v-bind:style="{ color: tweenedCSSColor }">{{item.key}}</span>
+      </div>
+    </router-link>
   </div>
+</div>
 </template>
 
 <script>
 import Color from 'color-js/color';
+import $ from 'jquery';
 // eslint-disable-next-line import/extensions
 import UserInfo from './UserInfo';
 
@@ -13,12 +21,12 @@ const TWEEN = require('@tweenjs/tween.js');
 
 let that;
 export default {
-  props: ['random_text'],
   name: 'RandomTextForColor',
   data() {
     // eslint-disable-next-line no-const-assign
     that = this;
     return {
+      index_main_menu: [],
       colorQuery: '#f4eeeb',
       color: {
         alpha: 1,
@@ -31,6 +39,7 @@ export default {
   },
   created() {
     this.tweenedColor = Object.assign({}, this.color);
+    this.index_main_menu = this.$store.getters.getIndexMainMenu;
   },
   watch: {
     color() {
@@ -78,6 +87,18 @@ export default {
       this.color = new Color(this.colorQuery).toRGB();
       this.colorQuery = '';
     },
+    empty() {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < this.index_main_menu.length; i++) {
+        const search = `div#${i} div`;
+        $(search).css('border-bottom', '1px solid rgba(0, 0, 0, 0.11)');
+      }
+    },
+    changeColor(index) {
+      this.empty();
+      const search = `div#${index} div`;
+      $(search).css('border-bottom', '2px solid #4590FF');
+    },
   },
 };
 </script>
@@ -87,6 +108,15 @@ export default {
   .random_color_f {
     font-family: "BIZ UDP明朝 Medium", "Times New Roman", "Microsoft YaHei", serif;
     font-max-size: 20px;
-    font-size: 17px;
+    font-size: 14px;
+  }
+  .menu-text{
+    width: 56px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+  }
+  .random_text{
+    display: inline-block;
+    margin-left: 80px;
   }
 </style>

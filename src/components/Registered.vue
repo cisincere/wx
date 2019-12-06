@@ -283,8 +283,8 @@ export default {
 
 <style>
   body{
-    background: linear-gradient(to right, rgba(255, 206, 92, 0.24) 0%,
-    rgba(144, 129, 255, 0.26) 100%) !important;
+    background: linear-gradient(to right, rgba(156, 255, 198, 0.24) 0%,
+    rgba(143, 206, 255, 0.26) 100%) !important;
   }
   .el-carousel{
     width: 45%;

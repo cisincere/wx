@@ -40,21 +40,35 @@
       </el-row>
     </el-header>
     <el-container>
-      <el-aside width="150px">Aside</el-aside>
       <el-container>
-        <el-main>Main</el-main>
-        <el-footer>Footer</el-footer>
+        <el-main>
+          <el-row>
+            <el-col>
+              <RandomTextForColor></RandomTextForColor>
+            </el-col>
+          </el-row>
+          <IndexImgShow></IndexImgShow>
+        </el-main>
       </el-container>
     </el-container>
   </el-container>
 </template>
 <script>
+// eslint-disable-next-line import/no-extraneous-dependencies
+import qs from 'qs';
+import VUe from 'vue';
 // eslint-disable-next-line camelcase
 import default_path from '../static/akari.jpg';
+// eslint-disable-next-line import/extensions
+import RandomTextForColor from '@/components/RandomTextForColor';
+// eslint-disable-next-line import/extensions
+import IndexImgShow from '@/components/IndexImgShow';
 
 export default {
+  components: { RandomTextForColor, IndexImgShow },
   data() {
     return {
+      switchForMore: false,
       nickname: '',
       id: '',
       email: '',
@@ -62,11 +76,19 @@ export default {
       user_info: new Map(),
       index_menu: ['主页', '分区', '主站', '源码查看'],
       search_word: '',
+      index_main_menu: [{ key: '每日推荐', value: '/' },
+        { key: '我的关注', value: '/' },
+        { key: '最近更新', value: '/' },
+        { key: '热门排行', value: '/' },
+        { key: 'Pixiv', value: '/' },
+        { key: '用户投稿', value: '/' },
+        { key: '分类', value: '/' }],
     };
   },
   created() {
     this.user_info.set('登录', '/login');
     this.user_info.set('注册', '/reg');
+    this.$store.commit('setIndexMainMenu', this.index_main_menu);
   },
   mounted() {
     const data = this.$store.getters.getUser;
@@ -82,6 +104,9 @@ export default {
   },
   methods: {
     show_ifo() {},
+    loadMore() {
+      console.log(1);
+    },
   },
 };
 </script>
@@ -144,11 +169,15 @@ export default {
     right: 40px;
     top: 10px;
   }
+  .el-main{
+    width: 80%;
+    margin: 0 auto;
+  }
   a{
     text-decoration: none;
     color: white;
   }
   a:hover{
-    color: cadetblue;
+    color: #2255a0;
   }
 </style>
