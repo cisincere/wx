@@ -1,6 +1,23 @@
 <template>
   <div>
-    <Header/>
+    <div class="carousel-item-img">
+   <div class="all_elc">
+    <el-carousel :interval="2800" typeof="card" height="200px">
+      <el-carousel-item v-for="left in files_left" :key="left">
+        <el-row>
+          <el-col :span="24"><img :src="left" class="item-img" alt=""/></el-col>
+        </el-row>
+      </el-carousel-item>
+    </el-carousel>
+      <el-carousel :interval="2800" typeof="card" height="200px">
+        <el-carousel-item v-for="right in files_right" :key="right">
+          <el-row>
+            <el-col :span="24"><img :src="right" class="item-img" alt=""/></el-col>
+          </el-row>
+        </el-carousel-item>
+      </el-carousel>
+     </div>
+    </div>
     <div class="reg_form">
       <el-form v-model="form" label-position="right" label-width="80px">
         <el-row type="flex" class="one-el-row">
@@ -70,7 +87,8 @@
           </el-form-item>
           </el-col>
           <el-col class="el-col-button" :span="3">
-            <el-button class="send_email" type="primary" @click="send_email()">发送验证码</el-button>
+            <el-button class="send_email" type="primary" @click="send_email()"
+                       :disabled="isDisabled">{{value}}</el-button>
           </el-col>
           <el-col class="error_col" :span="1">
             <span class="error" v-if="errors['form.ver_code']">
@@ -85,12 +103,23 @@
           </el-form-item>
           </el-col>
           <el-col class="reg-el-link-col" :span="4">
-            <el-link type="primary" href="#" class="reg-el-link" :underline="false">
+            <el-link type="primary" @click="toLogin()" class="reg-el-link" :underline="false">
               已有账号?去登陆</el-link>
           </el-col>
         </el-row>
       </el-form>
     </div>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>注册成功</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="toLogin()">确 定</el-button>
+  </span>
+    </el-dialog>
+
     <foot/>
   </div>
 </template>
@@ -107,13 +136,19 @@ import Header from '@/components/Header';
 import foot from '@/components/foot';
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = '/api';
+// axios.defaults.baseURL = '/api';
 Vue.use(Vuerify /* , add rules */);
 export default {
   name: 'Registered',
-  components: { foot, Header },
+  components: { foot },
   data() {
     return {
+      files_left: [],
+      files_right: [],
+      isDisabled: false,
+      value: '发送验证码',
+      dialogVisible: false,
+      time: 60,
       form: {
         username: '',
         nickname: '',
@@ -124,18 +159,34 @@ export default {
       },
     };
   },
-  // created() {
-  //   // eslint-disable-next-line camelcase
-  //   const file_path = 'F:\\VuePOJO\\wx\\src\\assets\\imgs';
-  //   const data = { path: file_path };
-  //   axios({
-  //     method: 'post',
-  //     url: '/p/get/files',
-  //     data: qs.stringify(data),
-  //   }).then((res) => {
-  //     console.log(res);
-  //   });
-  // },
+  created() {
+    // eslint-disable-next-line camelcase
+    const file_path = 'F:\\VuePOJO\\wx\\src\\static\\imgs';
+    const data = { path: file_path };
+    axios({
+      method: 'POST',
+      url: '/p/get/files/',
+      data: qs.stringify(data),
+    }).then((res) => {
+      const { files } = res.data;
+      let right = 0;
+      let left = 0;
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < files.length; i++) {
+        if (i % 2 === 0) {
+          // eslint-disable-next-line import/no-dynamic-require,global-require
+          Vue.set(this.files_right, right, require(`../static/imgs/${files[i]}`));
+          // eslint-disable-next-line no-plusplus
+          right++;
+        } else {
+          // eslint-disable-next-line import/no-dynamic-require,global-require
+          Vue.set(this.files_left, left, require(`../static/imgs/${files[i]}`));
+          // eslint-disable-next-line no-plusplus
+          left++;
+        }
+      }
+    });
+  },
   vuerify: {
     'form.username': {
       test: /\w{4,8}/,
@@ -150,7 +201,7 @@ export default {
       message: '不包含特殊字符(?!.空格等),至少包含两种字符',
     },
     'form.age': {
-      test: /\d{1,2}/,
+      test: /^\d{1,2}$/,
       message: '年龄应为两位数',
     },
     'form.email': {
@@ -170,19 +221,31 @@ export default {
       return this.$vuerify.$errors;
     },
   },
-  mounted() {
-    setInterval(() => {}, 2);
-  },
   methods: {
+    handleClose() {
+      this.dialogVisible = false;
+    },
     send_email() {
-      const data = { email: this.form.email };
-      axios({
-        method: 'post',
-        url: '/user/reg/send_email',
-        data: qs.stringify(data),
-      }).then((res) => {
-        console.log(res);
-      });
+      if (!this.isDisabled) {
+        const data = { email: this.form.email };
+        axios({
+          method: 'post',
+          url: '/api/user/reg/send_email',
+          data: qs.stringify(data),
+        });
+        this.isDisabled = true;
+        const interval = window.setInterval(() => {
+          this.value = `${this.time}`;
+          // eslint-disable-next-line no-plusplus
+          --this.time;
+          if (this.time < 0) {
+            this.value = '重新发送';
+            this.time = 10;
+            this.isDisabled = false;
+            window.clearInterval(interval);
+          }
+        }, 1000);
+      }
     },
     reg() {
       /* json格式提交： */
@@ -191,7 +254,6 @@ export default {
       if (!this.$vuerify.check(verifyList)) {
         return;
       }
-      console.log('验证通过');
       const data = {};
       /* formData格式提交： */
       // eslint-disable-next-line guard-for-in,no-restricted-syntax
@@ -203,17 +265,42 @@ export default {
       data.code = this.form.ver_code;
       axios({
         method: 'post',
-        url: '/user/reg',
+        url: '/api/user/reg',
         data: qs.stringify(data),
       }).then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          this.dialogVisible = true;
+        }
       });
+    },
+    toLogin() {
+      this.dialogVisible = false;
+      this.$router.replace('/login');
     },
   },
 };
 </script>
 
 <style>
+  body{
+    background: linear-gradient(to right, rgba(255, 206, 92, 0.24) 0%,
+    rgba(144, 129, 255, 0.26) 100%) !important;
+  }
+  .el-carousel{
+    width: 45%;
+    display: inline-block;
+  }
+  .all_elc{
+    margin: 0 auto;
+  }
+  .el-carousel__item>.el-row>.el-col{
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .item-img{
+    height: 200px;
+    object-fit: cover;
+  }
   .reg_form {
     width: 45%;
     margin: 0 auto;
@@ -269,6 +356,11 @@ export default {
     position: relative;
     right: 110px;
     font-size: 14px;
+
+  }
+  .el-link--inner{
+    position: relative;
+    left: 40px;
   }
   .reg-el-link > span{
     line-height: 4;
