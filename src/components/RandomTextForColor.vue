@@ -4,7 +4,8 @@
        @click="changeColor(index)" :id="index">
     <router-link :to="item.value">
       <div class="menu-text">
-        <span class="random_color_f" v-bind:style="{ color: tweenedCSSColor }">{{item.key}}</span>
+        <span slot="" class="random_color_f" v-bind:style="{ color: tweenedCSSColor }">
+          {{item.key}}</span>
       </div>
     </router-link>
   </div>

@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Reg from './components/Registered.vue';
 import Index from './views/Index.vue';
 import Login from './components/Login.vue';
+import bm from './components/BackgroundMusic.vue';
 
 Vue.use(Router);
 

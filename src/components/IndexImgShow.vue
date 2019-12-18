@@ -1,16 +1,12 @@
 <template>
-  <div class="infinite-list-wrapper" style="overflow:auto">
-    <div
-      class="list"
-      v-infinite-scroll="load"
-      infinite-scroll-delay="3000"
-      infinite-scroll-disabled="disabled">
+  <div class="infinite-list-wrapper" id="iis" style="overflow:auto">
+    <div class="list">
       <div v-for="(value, index) in index_img" class="list-item" :key="index">
         <el-image :src="value" :preview-src-list="[value]" fit="cover"
-                  class="list-img"/>
+                  class="list-img" lazy/>
       </div>
-    </div>
-    <p v-if="loading">加载中...</p>
+  </div>
+    <p v-if="load">加载中...</p>
     <p v-if="noMore">没有更多了</p>
   </div>
 </template>
@@ -18,12 +14,15 @@
 <script>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import qs from 'qs';
+import $ from 'jquery';
 
 export default {
   name: 'IndexImgShow',
   data() {
     return {
-      loading: false,
+      load: false,
+      noMore: false,
+      flg: true,
       start: 0,
       end: 60,
       index_img: [],
@@ -41,30 +40,60 @@ export default {
       data: qs.stringify(data),
     }).then((res) => {
       const { files } = res.data;
-      console.log(files);
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < files.length; i++) {
         // eslint-disable-next-line import/no-dynamic-require,global-require
         files[i] = require(`../static/index/${files[i]}`);
       }
+      this.start += 60;
+      this.end += 60;
       this.index_img = files;
     });
   },
-  methods: {
-    load() {
-      this.loading = true;
-      setTimeout(() => {
-        console.log(1);
-        this.loading = false;
-      }, 6000);
-    },
+  mounted() {
+    window.addEventListener('scroll', this.loads);
   },
   computed: {
-    noMore() {
-      return this.start >= 120;
-    },
-    disabled() {
-      return this.loading || this.noMore;
+  },
+  methods: {
+    loads() {
+      const ch = document.documentElement.clientHeight;
+      const sh = document.documentElement.scrollHeight;
+      const top = document.documentElement.scrollTop
+          || document.body.scrollTop || window.pageYOffset;
+      if (ch + top === sh && this.flg) {
+        if (this.start > 180) {
+          this.load = false;
+          this.noMore = true;
+          return;
+        }
+        this.load = true;
+        this.flg = false;
+        setTimeout(() => {
+          const data = {};
+          data.start = this.start;
+          data.end = this.end;
+          // eslint-disable-next-line no-useless-escape
+          data.path = 'F:/VuePOJO/wx/src/static/index';
+          this.$http({
+            method: 'POST',
+            url: 'p/img/',
+            data: qs.stringify(data),
+          }).then((res) => {
+            const { files } = res.data;
+            // eslint-disable-next-line no-plusplus
+            for (let i = 0; i < files.length; i++) {
+              // eslint-disable-next-line import/no-dynamic-require,global-require
+              files[i] = require(`../static/index/${files[i]}`);
+            }
+            this.start += 60;
+            this.end += 60;
+            this.index_img = this.index_img.concat(files);
+            this.load = false;
+            this.flg = true;
+          });
+        }, 2000);
+      }
     },
   },
 };
@@ -75,8 +104,8 @@ export default {
   width: 17%;
   margin: 0 auto;
   float: left;
-  margin-left: 20px;
-  margin-bottom: 20px;
+  margin-left: 45px;
+  margin-bottom: 34px;
   background: white;
   position: relative;
 }

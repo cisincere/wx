@@ -38,6 +38,16 @@
         </el-row>
       </el-form>
     </div>
+    <el-dialog
+      title="提示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <span>{{error_code}}</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -54,6 +64,8 @@ export default {
         username: '',
         password: '',
       },
+      error_code: '',
+      centerDialogVisible: false,
       img_path: '',
       screenHeight: window.innerHeight,
     };
@@ -192,7 +204,7 @@ export default {
         url: '/api/user/login',
         data: qs.stringify(data),
       }).then((res) => {
-        if (res.status === 200) {
+        if (res.data.state === 200) {
           // eslint-disable-next-line no-shadow,camelcase
           const user_info = new Map();
           // eslint-disable-next-line no-shadow
@@ -207,7 +219,11 @@ export default {
           user_info.set('历史', '/history');
           console.log(user_info);
           this.$store.commit('setUser', user_info);
+          this.$store.commit('setStateCode', true);
           this.$router.replace('/');
+        } else {
+          this.error_code = res.data.errorCode;
+          this.centerDialogVisible = true;
         }
       });
     },
@@ -304,5 +320,8 @@ export default {
     height: 640px;
     background-color: #000;
     position: relative;
+  }
+  .el-dialog__body{
+    text-align: center !important;
   }
 </style>

@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 // eslint-disable-next-line import/order
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
 Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
